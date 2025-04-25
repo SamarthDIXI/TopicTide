@@ -1,0 +1,79 @@
+/* General Page Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+/* Form Container Styling */
+.producerInput {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    height: 100vh;
+}
+
+/* Form Elements Styling */
+form label {
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
+    font-weight: 500;
+}
+
+form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+}
+
+/* Active Input Box Styling */
+form input[type="text"]:focus {
+    border-color: #007acc; /* Light blue border on focus */
+    outline: none;
+}
+
+#i2 {
+    height: 200px;
+    width: 100%;
+    padding: 10px;
+    resize: vertical; /* Allow user to resize vertically if needed */
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+#i2:focus {
+    border-color: #007acc;
+    outline: none;
+}
+
+
+/* Submit Button Styling */
+form input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Submit Button Hover */
+form input[type="submit"]:hover {
+    background-color: #005fa3;
+}
+
+/* Submit Button Clicked (Active) */
+form input[type="submit"]:active {
+    background-color: #004d82;
+}
