@@ -1,46 +1,60 @@
 🔍 Detailed Purpose of Each Folder and File
-broker/
+1. broker/
 Handles the core backend logic (written in Go):
 
-main.go: Entry point of the broker application. Listens for connections.
+a. broker.go: Handles socket connections, routing messages.
 
-broker.go: Handles socket connections, routing messages.
+b. topic_manager.go: Manages writing messages to topic files.
 
-topic_manager.go: Manages writing messages to topic files.
+c. file_lock.go: Implements file locking to avoid race conditions.
 
-file_lock.go: Implements file locking to avoid race conditions.
+d. utils/logger.go: Optional logging helper for debugging.
 
-utils/logger.go: Optional logging helper for debugging.
-
-producer_frontend/
+2. producer_frontend/
 Light HTML/JS interface for message producers:
 
-index.html: Simple form UI for submitting topic & message.
+a. index.html: Simple form UI for submitting topic & message.
 
-script.js: Handles form submission and sends data to the Broker via sockets/WebSocket.
+b. script.js: Handles form submission and sends data to the Broker via sockets/WebSocket.
 
-styles.css: Basic styling for layout.
+c. styles.css: Basic styling for layout.
 
-consumer_frontend/
+3. consumer_frontend/
 HTML/JS interface for message consumers:
 
-index.html: UI for selecting a topic and offset (start/latest).
+a. index.html: UI for selecting a topic and offset (start/latest).
 
-script.js: Connects to the broker and displays messages in real time or by offset.
+b.  script.js: Connects to the broker and displays messages in real time or by offset.
 
-styles.css: Page styling.
+c. styles.css: Page styling.
 
-communication_protocol/
+4. communication_protocol/
 message.go: Shared Go struct for standardizing messages exchanged between components. Useful if Producer, Consumer, or test clients are CLI-based and written in Go.
 
-test/
+5. test/
 Go test files:
 
-test_producer.go: Simulates a producer client sending messages.
+a. test_producer.go: Simulates a producer client sending messages.
 
-test_consumer.go: Simulates a consumer fetching messages by offset.
+b. test_consumer.go: Simulates a consumer fetching messages by offset.
 
-Root Files
-README.md: Describe how the system works and how to run it.
+6. Root Files
+a. README.md: Describe how the system works and how to run it.
 
-go.mod: Go module file for managing dependencies.
+b. go.mod: Go module file for managing dependencies.
+
+c. main.go: Entry point of the broker application. Listens for connections.
+
+
+
+<<ESTABLISHING BROKER AND PRODUCER CONNECTION>>
+
+1. Broker is running on port 8080.
+2. Producers connect via WebSocket.
+
+In main.go:
+
+1. First upgrade incoming HTTP requests to a WebSocket connection.
+2. Then listen for incoming messages.
+3. Read the incoming data (topic + content).
+4. Log the topic and content.

@@ -1,21 +1,40 @@
-let producerSocket=new WebSocket('ws://localhost:8080');
-producerSocket.onopen=()=>{
+let producerSocket = new WebSocket('ws://localhost:8080');
+
+console.log("Attempting to connect to WebSocket..."); 
+
+producerSocket.onopen = () => {
     console.log("Producer-Broker connection opened!");
-}
-producerSocket.onerror=()=>{
-    console.error("Producer-Broker websocket error: ",error)
-}
-function createJSON(event){
-    event.preventDefault()
-    let topic=document.getElementById("i1").value;
-    let content=document.getElementById("i2").value;
-    let producerMsg={
-        "Topic":topic,
-        "Content":content
+};
+
+producerSocket.onerror = (error) => {
+    console.error("Producer-Broker websocket error: ", error);
+};
+
+producerSocket.onclose = (event) => {
+    console.log("Producer-Broker connection closed:", event);
+};
+
+producerSocket.onmessage = (event) => {
+    console.log("Received data from broker:", event.data); 
+};
+
+function createJSON(event) {
+    event.preventDefault();
+    let topic = document.getElementById("i1").value;
+    let content = document.getElementById("i2").value;
+    let producerMsg = {
+        "Topic": topic,
+        "Content": content
     };
-    console.log(JSON.stringify(producerMsg));
-    producerSocket.send(JSON.stringify(producerMsg));
+    let jsonMessage = JSON.stringify(producerMsg);
+    console.log("Sending message:", jsonMessage);
+    if (producerSocket.readyState === WebSocket.OPEN) {
+        producerSocket.send(jsonMessage);
+    } else {
+        console.error("WebSocket is not open. Current state:", producerSocket.readyState);
+    }
 }
-document.getElementById("f1").addEventListener("submit",(event)=>{
+
+document.getElementById("f1").addEventListener("submit", (event) => {
     createJSON(event);
 });
