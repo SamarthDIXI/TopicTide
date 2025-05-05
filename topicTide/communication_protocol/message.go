@@ -1,7 +1,6 @@
 package communication_protocol
 
-import "fmt"
-
-func ProcessMessage() {
-    fmt.Println("Message processed")
+type Message struct {
+    Topic   string `json:"Topic"`
+    Content string `json:"Content"`
 }

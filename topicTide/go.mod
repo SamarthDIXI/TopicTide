@@ -1,4 +1,4 @@
-module topic-tide
+module topicTide
 
 go 1.24.2
 

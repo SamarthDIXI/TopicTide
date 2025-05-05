@@ -1,4 +1,4 @@
-let producerSocket = new WebSocket('ws://localhost:8080');
+let producerSocket = new WebSocket('ws://localhost:8080/producer');
 
 console.log("Attempting to connect to WebSocket..."); 
 

@@ -54,7 +54,16 @@ c. main.go: Entry point of the broker application. Listens for connections.
 
 In main.go:
 
-1. First upgrade incoming HTTP requests to a WebSocket connection.
-2. Then listen for incoming messages.
-3. Read the incoming data (topic + content).
-4. Log the topic and content.
+1. Listen request of producer and consumer and forward it to broker.go
+
+In broker.go: 
+
+1. Handle Producer request like unmarshall json content from producer, sanitize topic name to create a file name etc.
+
+In topic_manager.go:
+
+1. Handle upcoming request from broker.go and transmit it to file_lock.go 
+
+In file_lock.go:
+
+1. Encrypt the content and apply lock to avoid critical conditions and then only write to a file
