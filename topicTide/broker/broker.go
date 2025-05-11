@@ -3,13 +3,14 @@ package broker
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"regexp"
 	"topicTide/communication_protocol"
+
+	"github.com/gorilla/websocket"
 )
 
 // upgrade http connection to websocket
@@ -22,7 +23,7 @@ var upgrader = websocket.Upgrader{
 
 // sanitizeFilename removes characters not allowed in filenames from topic name
 func sanitizeFilename(name string) string {
-	fmt.Print(name);
+	fmt.Print(name)
 	re := regexp.MustCompile(`[^\w\-.]`)
 	return re.ReplaceAllString(name, "_")
 }
@@ -39,7 +40,7 @@ func HandleProducer(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("WebSocket connection established in handleProducer!")
 
 	for {
-		_, message, err := conn.ReadMessage()
+		messageType, message, err := conn.ReadMessage()
 		if err != nil {
 			log.Println("Read Error:", err)
 			break
@@ -59,7 +60,6 @@ func HandleProducer(w http.ResponseWriter, r *http.Request) {
 
 		filePath := filepath.Join("topicFiles", sanitizedTopic+".txt")
 
-
 		// Create the file if it doesn't exist
 		file, err := os.OpenFile(filePath, os.O_CREATE, 0644)
 		if err != nil {
@@ -68,10 +68,18 @@ func HandleProducer(w http.ResponseWriter, r *http.Request) {
 		}
 		file.Close()
 
-		// Call message handler with raw message 
+		// Call message handler with raw message
 		if err := HandleMessage(filePath, content); err != nil {
 			log.Println("Error in handling message:", err)
 			continue
+		}
+
+		// Send acknowledgement to user for received message
+		ackMsg := fmt.Sprintf("Message received: %s", message)
+		err = conn.WriteMessage(messageType, []byte(ackMsg))
+		if err != nil {
+			log.Println("Write Error (Acknowledgement):", err)
+			break
 		}
 	}
 	fmt.Println("Exiting handleProducer for this connection.")

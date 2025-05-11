@@ -14,10 +14,6 @@ producerSocket.onclose = (event) => {
     console.log("Producer-Broker connection closed:", event);
 };
 
-producerSocket.onmessage = (event) => {
-    console.log("Received data from broker:", event.data); 
-};
-
 function createJSON(event) {
     event.preventDefault();
     let topic = document.getElementById("i1").value;
@@ -30,6 +26,10 @@ function createJSON(event) {
     console.log("Sending message:", jsonMessage);
     if (producerSocket.readyState === WebSocket.OPEN) {
         producerSocket.send(jsonMessage);
+        producerSocket.onmessage = (event) => {
+            console.log("Received data from broker:", event.data); 
+            alert("Your message has been received!");
+        };
     } else {
         console.error("WebSocket is not open. Current state:", producerSocket.readyState);
     }
