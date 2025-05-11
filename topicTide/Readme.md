@@ -58,7 +58,7 @@ In main.go:
 
 In broker.go: 
 
-1. Handle Producer request like unmarshall json content from producer, sanitize topic name to create a file name etc.
+1. Handle Producer request like unmarshall json content from producer, sanitize topic name to create a file name, sending acknowledgement of message received, etc.
 
 In topic_manager.go:
 
