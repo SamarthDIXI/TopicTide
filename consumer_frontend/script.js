@@ -40,7 +40,7 @@ async function fetchMessages() {
   messagesBox.innerHTML = "Fetching messages...";
 
   try {
-    const res = await fetch("http://localhost:8080/consume"); // Adjust this endpoint
+    const res = await fetch("http://localhost:8080/consume"); // Adjust endpoint
     const data = await res.json();
 
     if (Array.isArray(data)) {
